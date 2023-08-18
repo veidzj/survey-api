@@ -13,7 +13,7 @@
     "test:ci": "npm test -- --coverage"
   },
   "keywords": [],
-  "author": "",
+  "author": "João Victor Veidz",
   "license": "ISC",
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.1.3",
