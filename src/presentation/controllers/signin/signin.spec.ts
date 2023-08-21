@@ -1,6 +1,6 @@
 import { SignInController } from './signin'
 import { HttpRequest, Authentication, Validation } from './signin-protocols'
-import { ok, unauthorized, badRequest, serverError } from '../../helpers/http-helpers'
+import { ok, unauthorized, badRequest, serverError } from '../../helpers/http/http-helpers'
 import { MissingParamError } from '../../errors'
 
 interface SutTypes {

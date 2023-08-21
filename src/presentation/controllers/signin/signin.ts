@@ -1,5 +1,5 @@
 import { Controller, HttpRequest, HttpResponse, Authentication, Validation } from './signin-protocols'
-import { ok, unauthorized, badRequest, serverError } from '../../helpers/http-helpers'
+import { ok, unauthorized, badRequest, serverError } from '../../helpers/http/http-helpers'
 
 export class SignInController implements Controller {
   private readonly validation: Validation
