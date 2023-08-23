@@ -1,5 +1,5 @@
-import { Controller, HttpRequest, HttpResponse, Authentication, Validation } from './signin-protocols'
-import { ok, unauthorized, badRequest, serverError } from '../../helpers/http/http-helpers'
+import { Controller, Validation, Authentication, HttpRequest, HttpResponse } from './signin-protocols'
+import { badRequest, unauthorized, ok, serverError } from '../../helpers/http/http-helpers'
 
 export class SignInController implements Controller {
   private readonly validation: Validation
@@ -17,10 +17,7 @@ export class SignInController implements Controller {
         return badRequest(error)
       }
       const { email, password } = httpRequest.body
-      const accessToken = await this.authentication.auth({
-        email,
-        password
-      })
+      const accessToken = await this.authentication.auth({ email, password })
       if (!accessToken) {
         return unauthorized()
       }

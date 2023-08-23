@@ -1,22 +1,22 @@
 import { SignInController } from './signin'
-import { HttpRequest, Authentication, Validation, AuthenticationModel } from './signin-protocols'
-import { ok, unauthorized, badRequest, serverError } from '../../helpers/http/http-helpers'
+import { Validation, Authentication, HttpRequest, AuthenticationModel } from './signin-protocols'
 import { MissingParamError } from '../../errors'
+import { badRequest, unauthorized, ok, serverError } from '../../helpers/http/http-helpers'
 
 interface SutTypes {
   sut: SignInController
-  authenticationStub: Authentication
   validationStub: Validation
+  authenticationStub: Authentication
 }
 
 const makeSut = (): SutTypes => {
-  const authenticationStub = makeAuthentication()
   const validationStub = makeValidation()
+  const authenticationStub = makeAuthentication()
   const sut = new SignInController(validationStub, authenticationStub)
   return {
     sut,
-    authenticationStub,
-    validationStub
+    validationStub,
+    authenticationStub
   }
 }
 
