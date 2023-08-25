@@ -1,5 +1,5 @@
-import { SignInController } from './signin'
-import { Validation, Authentication, HttpRequest, AuthenticationModel } from './signin-protocols'
+import { SignInController } from './signin-controller'
+import { Validation, Authentication, HttpRequest, AuthenticationModel } from './signin-controller-protocols'
 import { MissingParamError } from '../../errors'
 import { badRequest, unauthorized, ok, serverError } from '../../helpers/http/http-helpers'
 
