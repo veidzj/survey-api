@@ -50,5 +50,15 @@ describe('SignIn Routes', () => {
         })
         .expect(200)
     })
+
+    test('Should return 401 on signin unauthorized', async () => {
+      await request(app)
+        .post('/api/signin')
+        .send({
+          email: 'valid_email@mail.com',
+          password: 'valid_password'
+        })
+        .expect(401)
+    })
   })
 })
