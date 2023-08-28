@@ -61,6 +61,5 @@
 * Stubs
 * Spies
 * Deploy with Typescript
-* Deploy no Heroku
 * Breakpoints in Typescript
 * Correct use of tags in Git
