@@ -1,4 +1,4 @@
-# Answer Survey
+# Survey Result
 
 > ## Success case:
 
