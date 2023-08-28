@@ -1,3 +1,7 @@
+> ## APIs requirements:
+
+1. [Sign Up](./requirements/signup.md)
+
 > ## Applied Principles:
 * Single Responsibility Principle (SRP)
 * Open Closed Principle (OCP)
