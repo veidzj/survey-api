@@ -17,6 +17,8 @@ services:
       - mongodb
     volumes:
       - ./dist:/usr/src/survey-api/dist
+      - ./package.json:/usr/src/survey-api/package.json
     ports:
       - 5050:5050
-    command: npm start
+      - 9222:9222
+    command: npm run debug
