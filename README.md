@@ -1,6 +1,7 @@
 > ## APIs requirements:
 
 1. [Sign Up](./requirements/signup.md)
+2. [Sign In](./requirements/signin.md)
 
 > ## Applied Principles:
 * Single Responsibility Principle (SRP)
