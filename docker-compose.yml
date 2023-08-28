@@ -16,9 +16,9 @@ services:
     links:
       - mongodb
     volumes:
-      - ./dist:/usr/src/survey-api/dist
+      - ./dist:/usr/src/survey-api/dist/
       - ./package.json:/usr/src/survey-api/package.json
     ports:
       - 5050:5050
       - 9222:9222
-    command: bash -c "npm install --omit=dev && npm run debug"
+    command: bash -c "npm install && npm run debug"
