@@ -2,6 +2,7 @@
 
 1. [Sign Up](./requirements/signup.md)
 2. [Sign In](./requirements/signin.md)
+3. [Add Survey](./requirements/add-survey.md)
 
 > ## Applied Principles:
 * Single Responsibility Principle (SRP)
