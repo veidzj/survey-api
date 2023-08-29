@@ -1,6 +1,7 @@
 import { Collection } from 'mongodb'
 import { AccountMongoRepository } from './account-mongo-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
+import env from '../../../../main/config/env'
 
 const makeSut = (): AccountMongoRepository => {
   return new AccountMongoRepository()
@@ -10,7 +11,7 @@ let accountsCollection: Collection
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
-    await MongoHelper.connect(process.env.MONGO_URL)
+    await MongoHelper.connect(env.mongoUrl)
   })
 
   afterAll(async () => {

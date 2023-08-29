@@ -1,8 +1,9 @@
 import { MongoHelper as sut } from './mongo-helper'
+import env from '../../../../main/config/env'
 
 describe('Mongo Helper', () => {
   beforeAll(async () => {
-    await sut.connect(process.env.MONGO_URL)
+    await sut.connect(env.mongoUrl)
   })
 
   afterAll(async () => {
