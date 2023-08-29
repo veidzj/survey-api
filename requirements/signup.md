@@ -17,7 +17,7 @@
 2. ✅ Returns error 400 if **name**, **email**, **password** or **passwordConfirmation** are not provided by the client
 3. ✅ Returns error 400 if **password** and **passwordConfirmation** are not equal
 4. ✅ Returns error 400 if the **email** field is an invalid email
-5. ⛔️ Returns 403 error if provided email is already in use
+5. ✅ Returns 403 error if provided email is already in use
 6. ✅ Returns error 500 if there is an error when trying to generate an encrypted password
 7. ✅ Returns error 500 if there is an error when trying to create the user account
 8. ✅ Returns error 500 if there is an error when trying to generate the access token
