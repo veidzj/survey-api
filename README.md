@@ -1,3 +1,5 @@
+[![Build Status](https://app.travis-ci.com/veidzj/survey-api.svg?branch=main)](https://app.travis-ci.com/veidzj/survey-api)
+
 > ## APIs requirements:
 
 1. [Sign Up](./requirements/signup.md)
