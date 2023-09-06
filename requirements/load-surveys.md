@@ -3,7 +3,7 @@
 > ## Success case:
 1. ⛔️ Receives a **GET** type request on the route **/api/surveys**
 2. ⛔️ Validate if the request was made by a **user**
-3. ⛔️ Returns **204** if there is no survey
+3. ✅ Returns **204** if there is no survey
 4. ✅ Returns **200** with survey data
 
 > ## Exceptions:
