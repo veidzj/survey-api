@@ -8,6 +8,22 @@ import env from '../config/env'
 let surveysCollection: Collection
 let accountsCollection: Collection
 
+const makeAccessToken = async (): Promise<string> => {
+  const res = await accountsCollection.insertOne({
+    name: 'valid_name',
+    email: 'valid_email@mail.com',
+    password: 'valid_password',
+    role: 'admin'
+  })
+  const id = res.ops[0]._id
+  const accessToken = sign({ id }, env.jwtSecret)
+  await accountsCollection.updateOne(
+    { _id: id },
+    { $set: { accessToken } }
+  )
+  return accessToken
+}
+
 describe('Survey Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(env.mongoUrl)
@@ -43,18 +59,7 @@ describe('Survey Routes', () => {
     })
 
     test('Should return 204 if valid accessToken is provided', async () => {
-      const res = await accountsCollection.insertOne({
-        name: 'valid_name',
-        email: 'valid_email@mail.com',
-        password: 'valid_password',
-        role: 'admin'
-      })
-      const id = res.ops[0]._id
-      const accessToken = sign({ id }, env.jwtSecret)
-      await accountsCollection.updateOne(
-        { _id: id },
-        { $set: { accessToken } }
-      )
+      const accessToken = await makeAccessToken()
       await request(app)
         .post('/api/surveys')
         .set('x-access-token', accessToken)
@@ -69,6 +74,22 @@ describe('Survey Routes', () => {
             }
           ]
         })
+        .expect(204)
+    })
+  })
+
+  describe('GET /surveys', () => {
+    test('Should return 403 if no accessToken is provided', async () => {
+      await request(app)
+        .get('/api/surveys')
+        .expect(403)
+    })
+
+    test('Should return 204 if valid accessToken is provided', async () => {
+      const accessToken = await makeAccessToken()
+      await request(app)
+        .get('/api/surveys')
+        .set('x-access-token', accessToken)
         .expect(204)
     })
   })
