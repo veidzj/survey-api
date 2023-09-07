@@ -3,11 +3,11 @@ import { SurveyMongoRepository } from './survey-mongo-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import env from '../../../../main/config/env'
 
+let surveysCollection: Collection
+
 const makeSut = (): SurveyMongoRepository => {
   return new SurveyMongoRepository()
 }
-
-let surveysCollection: Collection
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
