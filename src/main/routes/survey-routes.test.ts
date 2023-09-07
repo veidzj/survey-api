@@ -80,7 +80,7 @@ describe('Survey Routes', () => {
         .expect(403)
     })
 
-    test('Should return 200 if valid accessToken is provided with at least one survey', async () => {
+    test('Should return 200 if valid accessToken is provided with at least one survey in the database', async () => {
       const res = await accountsCollection.insertOne({
         name: 'valid_name',
         email: 'valid_email@mail.com',
@@ -105,6 +105,24 @@ describe('Survey Routes', () => {
         .get('/api/surveys')
         .set('x-access-token', accessToken)
         .expect(200)
+    })
+
+    test('Should return 204 if valid accessToken is provided with no survey in the database', async () => {
+      const res = await accountsCollection.insertOne({
+        name: 'valid_name',
+        email: 'valid_email@mail.com',
+        password: 'valid_password'
+      })
+      const id = res.ops[0]._id
+      const accessToken = sign({ id }, env.jwtSecret)
+      await accountsCollection.updateOne(
+        { _id: id },
+        { $set: { accessToken } }
+      )
+      await request(app)
+        .get('/api/surveys')
+        .set('x-access-token', accessToken)
+        .expect(204)
     })
   })
 })
