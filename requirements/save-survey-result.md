@@ -16,4 +16,4 @@
 4. ⛔️ Returns error **403** if the response sent by the client is an invalid response
 5. ⛔️ Returns error **500** if there is an error when trying to create the survey result
 6. ⛔️ Returns error **500** if there is an error when trying to update the survey results
-7. ⛔️ Returns error **500** if there is an error when trying to load the survey
+7. ✅ Returns error **500** if there is an error when trying to load the survey
