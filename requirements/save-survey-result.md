@@ -7,7 +7,7 @@
 4. ✅ Validates that the **answer** field is a valid answer
 5. ✅ **Create** a survey result with the data provided if there is no registry
 6. ✅ **Updates** a survey result with the data provided if there is already a registry
-7. ⛔️ Returns **200** with survey result data
+7. ✅ Returns **200** with survey result data
 
 > ## Exceptions:
 1. ⛔️ Returns error **404** if the API does not exist
