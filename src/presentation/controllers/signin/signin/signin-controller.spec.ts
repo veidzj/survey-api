@@ -1,5 +1,5 @@
 import { SignInController } from './signin-controller'
-import { Validation, Authentication, HttpRequest, AuthenticationModel } from './signin-controller-protocols'
+import { Validation, Authentication, HttpRequest, AuthenticationParams } from './signin-controller-protocols'
 import { MissingParamError } from '@/presentation/errors'
 import { badRequest, unauthorized, ok, serverError } from '@/presentation/helpers/http/http-helpers'
 
@@ -22,7 +22,7 @@ const makeSut = (): SutTypes => {
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationModel): Promise<string | null> {
+    async auth (authentication: AuthenticationParams): Promise<string | null> {
       return new Promise(resolve => resolve('any_token'))
     }
   }
