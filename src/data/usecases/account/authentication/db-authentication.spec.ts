@@ -7,7 +7,8 @@ import {
   Encrypter,
   UpdateAccessTokenRepository
 } from './db-authentication-protocols'
-import { throwError } from '@/domain/test'
+import { mockEncrypter, mockHashComparer } from '@/data/test'
+import { mockAccountModel, throwError } from '@/domain/test'
 
 type SutTypes = {
   sut: DbAuthentication
@@ -19,8 +20,8 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
-  const hashComparerStub = makeHashComparer()
-  const encrypterStub = makeEncrypter()
+  const hashComparerStub = mockHashComparer()
+  const encrypterStub = mockEncrypter()
   const updateAccessTokenRepositoryStub = makeUpdateAccessTokenRepository()
   const sut = new DbAuthentication(
     loadAccountByEmailRepositoryStub,
@@ -40,28 +41,10 @@ const makeSut = (): SutTypes => {
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
     async loadByEmail (email: string): Promise<AccountModel | null> {
-      return new Promise(resolve => resolve(makeFakeAccount()))
+      return new Promise(resolve => resolve(mockAccountModel()))
     }
   }
   return new LoadAccountByEmailRepositoryStub()
-}
-
-const makeHashComparer = (): HashComparer => {
-  class HashComparerStub implements HashComparer {
-    async compare (value: string, hash: string): Promise<boolean> {
-      return new Promise(resolve => resolve(true))
-    }
-  }
-  return new HashComparerStub()
-}
-
-const makeEncrypter = (): Encrypter => {
-  class EncrypterStub implements Encrypter {
-    async encrypt (value: string): Promise<string> {
-      return new Promise(resolve => resolve('any_token'))
-    }
-  }
-  return new EncrypterStub()
 }
 
 const makeUpdateAccessTokenRepository = (): UpdateAccessTokenRepository => {
@@ -72,13 +55,6 @@ const makeUpdateAccessTokenRepository = (): UpdateAccessTokenRepository => {
   }
   return new UpdateAccessTokenRepositoryStub()
 }
-
-const makeFakeAccount = (): AccountModel => ({
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email@mail.com',
-  password: 'hashed_password'
-})
 
 const makeFakeAuthentication = (): AuthenticationParams => ({
   email: 'any_email@mail.com',
@@ -111,7 +87,7 @@ describe('DbAuthentication Usecase', () => {
     const { sut, hashComparerStub } = makeSut()
     const compareSpy = jest.spyOn(hashComparerStub, 'compare')
     await sut.auth(makeFakeAuthentication())
-    expect(compareSpy).toHaveBeenCalledWith('any_password', 'hashed_password')
+    expect(compareSpy).toHaveBeenCalledWith('any_password', 'any_password')
   })
 
   test('Should throw if HashComparer throws', async () => {

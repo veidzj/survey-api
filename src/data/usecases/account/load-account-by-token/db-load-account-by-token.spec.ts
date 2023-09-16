@@ -1,6 +1,7 @@
 import { DbLoadAccountByToken } from './db-load-account-by-token'
 import { Decrypter, LoadAccountByTokenRepository, AccountModel } from './db-load-account-by-token-protocols'
-import { throwError } from '@/domain/test'
+import { mockDecrypter } from '@/data/test'
+import { mockAccountModel, throwError } from '@/domain/test'
 
 type SutTypes = {
   sut: DbLoadAccountByToken
@@ -9,7 +10,7 @@ type SutTypes = {
 }
 
 const makeSut = (): SutTypes => {
-  const decrypterStub = makeDecrypter()
+  const decrypterStub = mockDecrypter()
   const loadAccountByTokenRepositoryStub = makeLoadAccountByTokenRepository()
   const sut = new DbLoadAccountByToken(decrypterStub, loadAccountByTokenRepositoryStub)
   return {
@@ -19,30 +20,14 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const makeDecrypter = (): Decrypter => {
-  class DecrypterStub implements Decrypter {
-    async decrypt (token: string): Promise<string> {
-      return new Promise(resolve => resolve('any_value'))
-    }
-  }
-  return new DecrypterStub()
-}
-
 const makeLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
   class LoadAccountByTokenRepositoryStub implements LoadAccountByTokenRepository {
     async loadByToken (token: string, role?: string): Promise<AccountModel> {
-      return new Promise(resolve => resolve(makeFakeAccount()))
+      return new Promise(resolve => resolve(mockAccountModel()))
     }
   }
   return new LoadAccountByTokenRepositoryStub()
 }
-
-const makeFakeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email@mail.com',
-  password: 'hashed_password'
-})
 
 describe('DbLoadAccountByToken Usecase', () => {
   test('Should call Decrypter with correct value', async () => {
@@ -76,7 +61,7 @@ describe('DbLoadAccountByToken Usecase', () => {
   test('Should return an account on success', async () => {
     const { sut } = makeSut()
     const account = await sut.load('any_token', 'any_role')
-    expect(account).toEqual(makeFakeAccount())
+    expect(account).toEqual(mockAccountModel())
   })
 
   test('Should throw if Decrypter throws', async () => {
