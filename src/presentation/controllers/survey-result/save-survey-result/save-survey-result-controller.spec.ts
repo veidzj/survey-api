@@ -3,7 +3,7 @@ import { SaveSurveyResultController } from './save-survey-result-controller'
 import { HttpRequest, LoadSurveyById, SurveyModel, SaveSurveyResult, SaveSurveyResultParams, SurveyResultModel } from './save-survey-result-controller-protocols'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helpers'
 import { InvalidParamError } from '@/presentation/errors'
-import { throwError } from '@/domain/test'
+import { mockSurveyModel, throwError } from '@/domain/test'
 
 type SutTypes = {
   sut: SaveSurveyResultController
@@ -25,7 +25,7 @@ const makeSut = (): SutTypes => {
 const makeLoadSurveyById = (): LoadSurveyById => {
   class LoadSurveyByIdStub implements LoadSurveyById {
     async loadById (id: string): Promise<SurveyModel> {
-      return new Promise(resolve => resolve(makeFakeSurvey()))
+      return new Promise(resolve => resolve(mockSurveyModel()))
     }
   }
   return new LoadSurveyByIdStub()
@@ -48,16 +48,6 @@ const makeFakeRequest = (): HttpRequest => ({
     answer: 'any_answer'
   },
   accountId: 'any_account_id'
-})
-
-const makeFakeSurvey = (): SurveyModel => ({
-  id: 'any_id',
-  question: 'any_question',
-  answers: [{
-    answer: 'any_answer',
-    image: 'any_image'
-  }],
-  date: new Date()
 })
 
 const makeFakeSurveyResult = (): SurveyResultModel => ({
