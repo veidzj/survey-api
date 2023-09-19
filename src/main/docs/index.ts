@@ -1,7 +1,5 @@
-import { signInPath } from './paths/signin-path'
-import { accountSchema } from './schemas/account-schema'
-import { signInParamsSchema } from './schemas/signin-params-schema'
-import { errorSchema } from './schemas/error-schema'
+import { signInPath } from './paths'
+import { accountSchema, signInParamsSchema, errorSchema } from './schemas'
 import { badRequest, unauthorized, notFound, serverError } from './components'
 
 export default {
