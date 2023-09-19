@@ -21,6 +21,9 @@ export const signInPath = {
             }
           }
         }
+      },
+      400: {
+        $ref: '#/components/badRequest'
       }
     }
   }
