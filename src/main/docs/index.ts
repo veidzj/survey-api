@@ -2,7 +2,7 @@ import { signInPath } from './paths/signin-path'
 import { accountSchema } from './schemas/account-schema'
 import { signInParamsSchema } from './schemas/signin-params-schema'
 import { errorSchema } from './schemas/error-schema'
-import { badRequest } from './components/bad-request'
+import { badRequest, unauthorized, serverError } from './components'
 
 export default {
   openapi: '3.0.0',
@@ -26,6 +26,8 @@ export default {
     error: errorSchema
   },
   components: {
-    badRequest
+    badRequest,
+    unauthorized,
+    serverError
   }
 }
