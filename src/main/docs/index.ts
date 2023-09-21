@@ -1,17 +1,6 @@
 import paths from './paths'
 import components from './components'
-import {
-  signUpParamsSchema,
-  signInParamsSchema,
-  accountSchema,
-  errorSchema,
-  surveySchema,
-  surveysSchema,
-  surveyAnswerSchema,
-  addSurveyParamsSchema,
-  saveSurveyParamsSchema,
-  surveyResultSchema
-} from './schemas'
+import schemas from './schemas'
 
 export default {
   openapi: '3.0.0',
@@ -33,17 +22,6 @@ export default {
     name: 'Survey'
   }],
   paths,
-  schemas: {
-    signUpParams: signUpParamsSchema,
-    signInParams: signInParamsSchema,
-    account: accountSchema,
-    error: errorSchema,
-    survey: surveySchema,
-    surveys: surveysSchema,
-    surveyAnswer: surveyAnswerSchema,
-    addSurveyParams: addSurveyParamsSchema,
-    saveSurveyParams: saveSurveyParamsSchema,
-    surveyResult: surveyResultSchema
-  },
+  schemas,
   components
 }
