@@ -1,4 +1,4 @@
-import { signInPath, signUpPath, surveyPath, surveyResultPath } from './paths'
+import paths from './paths'
 import {
   apiKeyAuthSchema,
   signUpParamsSchema,
@@ -33,12 +33,7 @@ export default {
   }, {
     name: 'Survey'
   }],
-  paths: {
-    '/signup': signUpPath,
-    '/signin': signInPath,
-    '/surveys': surveyPath,
-    '/surveys/{surveyId}/results': surveyResultPath
-  },
+  paths,
   schemas: {
     signUpParams: signUpParamsSchema,
     signInParams: signInParamsSchema,
