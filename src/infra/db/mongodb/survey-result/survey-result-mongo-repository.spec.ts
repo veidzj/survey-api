@@ -41,7 +41,7 @@ const makeAccount = async (): Promise<AccountModel> => {
   return MongoHelper.map(res.ops[0])
 }
 
-describe('Account Mongo Repository', () => {
+describe('Survey Result Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(env.mongoUrl)
   })
