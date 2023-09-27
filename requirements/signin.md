@@ -7,7 +7,7 @@
 4. ✅ Get the user with the provided email and password
 5. ✅ Generate an access token from the user ID
 6. ✅ Update user data with generated access token
-7. ✅ Returns 200 with access token
+7. ✅ Returns 200 with access token and user name
 
 > ## Exceptions:
 1. ✅ Returns 404 error if the API does not exist
