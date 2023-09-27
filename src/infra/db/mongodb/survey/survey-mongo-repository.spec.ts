@@ -28,8 +28,8 @@ describe('SurveyMongoRepository', () => {
     test('Should add a survey on success', async () => {
       const sut = makeSut()
       await sut.add(mockAddSurveyParams())
-      const survey = await surveysCollection.findOne({ question: 'any_question' })
-      expect(survey).toBeTruthy()
+      const count = await surveysCollection.countDocuments()
+      expect(count).toBe(1)
     })
   })
 

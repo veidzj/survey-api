@@ -3,7 +3,7 @@ import { RequiredFieldValidation } from './required-field-validation'
 import { MissingParamError } from '@/presentation/errors'
 
 const makeSut = (): RequiredFieldValidation => {
-  return new RequiredFieldValidation('field')
+  return new RequiredFieldValidation(field)
 }
 
 const field = faker.random.word()

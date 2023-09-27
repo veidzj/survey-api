@@ -53,15 +53,15 @@ describe('DbLoadSurveyResult Usecase', () => {
     const { sut, loadSurveyResultRepositoryStub, loadSurveyByIdRepositoryStub } = makeSut()
     loadSurveyResultRepositoryStub.surveyResultModel = null
     await sut.load(surveyId)
-    expect(loadSurveyByIdRepositoryStub.id).toHaveBeenCalledWith(surveyId)
+    expect(loadSurveyByIdRepositoryStub.id).toBe(surveyId)
   })
 
   test('Should return survey result answers with count 0 if LoadSurveyResultRepository returns null', async () => {
     const { sut, loadSurveyResultRepositoryStub, loadSurveyByIdRepositoryStub } = makeSut()
     loadSurveyResultRepositoryStub.surveyResultModel = null
-    await sut.load(surveyId)
+    const surveyResult = await sut.load(surveyId)
     const { surveyModel } = loadSurveyByIdRepositoryStub
-    expect(surveyModel).toEqual({
+    expect(surveyResult).toEqual({
       surveyId: surveyModel.id,
       question: surveyModel.question,
       date: surveyModel.date,

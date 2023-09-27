@@ -11,7 +11,7 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const emailValidatorSpy = new EmailValidatorSpy()
-  const sut = new EmailValidation('email', emailValidatorSpy)
+  const sut = new EmailValidation(field, emailValidatorSpy)
   return {
     sut,
     emailValidatorSpy

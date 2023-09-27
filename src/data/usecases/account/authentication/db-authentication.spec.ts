@@ -35,7 +35,7 @@ describe('DbAuthentication Usecase', () => {
     const { sut, loadAccountByEmailRepositorySpy } = makeSut()
     const authenticationParams = mockAuthenticationParams()
     await sut.auth(authenticationParams)
-    expect(loadAccountByEmailRepositorySpy).toBe(authenticationParams.email)
+    expect(loadAccountByEmailRepositorySpy.email).toBe(authenticationParams.email)
   })
 
   test('Should throw if LoadAccountByEmailRepository throws', async () => {

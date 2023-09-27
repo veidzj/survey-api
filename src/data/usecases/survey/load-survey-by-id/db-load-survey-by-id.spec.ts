@@ -36,7 +36,7 @@ describe('DbLoadSurveyById Usecase', () => {
   test('Should call LoadSurveyByIdRepository with correct id', async () => {
     const { sut, loadSurveyByIdRepositorySpy } = makeSut()
     await sut.loadById(surveyId)
-    expect(loadSurveyByIdRepositorySpy).toHaveBeenCalledWith(surveyId)
+    expect(loadSurveyByIdRepositorySpy.id).toBe(surveyId)
   })
 
   test('Should throw if LoadSurveyByIdRepository throws', async () => {
