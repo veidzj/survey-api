@@ -4,11 +4,11 @@ import { throwError } from '@/domain/test'
 
 jest.mock('jsonwebtoken', () => ({
   async sign (): Promise<string> {
-    return Promise.resolve('any_token')
+    return await Promise.resolve('any_token')
   },
 
   async verify (): Promise<string> {
-    return Promise.resolve('any_value')
+    return await Promise.resolve('any_value')
   }
 }))
 

@@ -10,7 +10,7 @@ export class AddSurveyRepositorySpy implements AddSurveyRepository {
 
   async add (data: AddSurveyParams): Promise<void> {
     this.addSurveyParams = data
-    return Promise.resolve()
+    return await Promise.resolve()
   }
 }
 
@@ -20,7 +20,7 @@ export class LoadSurveyByIdRepositorySpy implements LoadSurveyByIdRepository {
 
   async loadById (id: string): Promise<SurveyModel> {
     this.id = id
-    return Promise.resolve(this.surveyModel)
+    return await Promise.resolve(this.surveyModel)
   }
 }
 
@@ -30,6 +30,6 @@ export class LoadSurveysRepositorySpy implements LoadSurveysRepository {
 
   async loadAll (accountId: string): Promise<SurveyModel[]> {
     this.accountId = accountId
-    return Promise.resolve(this.surveyModels)
+    return await Promise.resolve(this.surveyModels)
   }
 }
