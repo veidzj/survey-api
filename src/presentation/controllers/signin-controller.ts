@@ -1,4 +1,4 @@
-import { Controller, HttpRequest, HttpResponse, Validation } from '@/presentation/protocols'
+import { Controller, HttpResponse, Validation } from '@/presentation/protocols'
 import { badRequest, serverError, unauthorized, ok } from '@/presentation/helpers'
 import { Authentication } from '@/domain/usecases'
 
@@ -8,13 +8,13 @@ export class SignInController implements Controller {
     private readonly authentication: Authentication
   ) {}
 
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle (request: SignInController.Request): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body)
+      const error = this.validation.validate(request)
       if (error) {
         return badRequest(error)
       }
-      const { email, password } = httpRequest.body
+      const { email, password } = request
       const authenticationModel = await this.authentication.auth({ email, password })
       if (!authenticationModel) {
         return unauthorized()
@@ -23,5 +23,12 @@ export class SignInController implements Controller {
     } catch (error) {
       return serverError(error)
     }
+  }
+}
+
+export namespace SignInController {
+  export type Request = {
+    email: string
+    password: string
   }
 }
