@@ -6,14 +6,13 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "rootDir": "src",
+    "rootDirs": ["src", "tests"],
     "baseUrl": "src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
+      "@/tests/*": ["../tests/*"]
     }
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src", "tests"],
   "exclude": []
 }

@@ -1,8 +1,8 @@
 import faker from 'faker'
 import { LogControllerDecorator } from './log-controller-decorator'
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
-import { ok, serverError } from '@/presentation/helpers/http/http-helpers'
-import { LogErrorRepositorySpy } from '@/data/test'
+import { ok, serverError } from '@/presentation/helpers/http-helpers'
+import { LogErrorRepositorySpy } from '../../data/mocks'
 import { mockAccountModel } from '@/domain/test'
 
 type SutTypes = {
