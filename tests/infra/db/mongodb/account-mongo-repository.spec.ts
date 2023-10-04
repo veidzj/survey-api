@@ -84,7 +84,7 @@ describe('AccountMongoRepository', () => {
       accessToken = faker.random.uuid()
     })
 
-    test('Should return an account on success without role', async () => {
+    test('Should return an account id on success without role', async () => {
       const sut = makeSut()
       await accountsCollection.insertOne({
         name,
@@ -95,12 +95,9 @@ describe('AccountMongoRepository', () => {
       const account = await sut.loadByToken(accessToken)
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
-      expect(account.name).toBe(name)
-      expect(account.email).toBe(email)
-      expect(account.password).toBe(password)
     })
 
-    test('Should return an account on success with admin role', async () => {
+    test('Should return an account id on success with admin role', async () => {
       const sut = makeSut()
       await accountsCollection.insertOne({
         name,
@@ -112,9 +109,6 @@ describe('AccountMongoRepository', () => {
       const account = await sut.loadByToken(accessToken, 'admin')
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
-      expect(account.name).toBe(name)
-      expect(account.email).toBe(email)
-      expect(account.password).toBe(password)
     })
 
     test('Should return null if invalid role is provided', async () => {
@@ -129,7 +123,7 @@ describe('AccountMongoRepository', () => {
       expect(account).toBeFalsy()
     })
 
-    test('Should return an account if user is admin', async () => {
+    test('Should return an account id if user is admin', async () => {
       const sut = makeSut()
       await accountsCollection.insertOne({
         name,
@@ -141,9 +135,6 @@ describe('AccountMongoRepository', () => {
       const account = await sut.loadByToken(accessToken)
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
-      expect(account.name).toBe(name)
-      expect(account.email).toBe(email)
-      expect(account.password).toBe(password)
     })
 
     test('Should return null if fails', async () => {
