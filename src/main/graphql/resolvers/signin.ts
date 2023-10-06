@@ -1,10 +1,10 @@
+import { adaptResolver } from '@/main/adapters'
+import { makeSignInController } from '@/main/factories'
+
 export default {
   Query: {
-    signin () {
-      return {
-        name: 'any_name',
-        accessToken: 'any_name'
-      }
+    async signIn (parent: any, args: any) {
+      return await adaptResolver(makeSignInController(), args)
     }
   }
 }

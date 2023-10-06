@@ -1,4 +1,4 @@
 import base from './base'
-import signin from './signin'
+import signIn from './signin'
 
-export default [base, signin]
+export default [base, signIn]
