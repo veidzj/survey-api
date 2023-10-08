@@ -14,8 +14,11 @@
 * Liskov Substitution Principle (LSP)
 * Interface Segregation Principle (ISP)
 * Dependency Inversion Principle (DIP)
+* Separation of Concerns (SOC)
 * Don't Repeat Yourself (DRY)
+* You Aren't Gonna Need It (YAGNI)
 * Composition Over Inheritance
+* Keep It Simple, Silly (KISS)
 * Small commits
 
 > ## Applied Design Patterns:
