@@ -8,7 +8,7 @@ import { MongoHelper } from '@/infra/db'
 let surveysCollection: Collection
 let accountsCollection: Collection
 
-const makeAccessToken = async (): Promise<string> => {
+const mockAccessToken = async (): Promise<string> => {
   const res = await accountsCollection.insertOne({
     name: 'valid_name',
     email: 'valid_email@mail.com',
@@ -59,7 +59,7 @@ describe('Survey Routes', () => {
     })
 
     test('Should return 204 if valid accessToken is provided', async () => {
-      const accessToken = await makeAccessToken()
+      const accessToken = await mockAccessToken()
       await request(app)
         .post('/api/surveys')
         .set('x-access-token', accessToken)
@@ -86,7 +86,7 @@ describe('Survey Routes', () => {
     })
 
     test('Should return 204 if valid accessToken is provided', async () => {
-      const accessToken = await makeAccessToken()
+      const accessToken = await mockAccessToken()
       await request(app)
         .get('/api/surveys')
         .set('x-access-token', accessToken)
