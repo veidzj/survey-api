@@ -15,7 +15,7 @@ export class AuthenticationSpy implements Authentication {
   authenticationParams: Authentication.Params
   authenticationModel: Authentication.Result = {
     name: faker.name.findName(),
-    accessToken: faker.random.uuid()
+    accessToken: faker.datatype.uuid()
   }
 
   async auth (authenticationParams: Authentication.Params): Promise<Authentication.Result> {
@@ -25,7 +25,7 @@ export class AuthenticationSpy implements Authentication {
 }
 
 export class LoadAccountByTokenSpy implements LoadAccountByToken {
-  result = { id: faker.random.uuid() }
+  result = { id: faker.datatype.uuid() }
   accessToken: string
   role: string
 

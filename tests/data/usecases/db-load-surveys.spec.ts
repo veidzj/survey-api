@@ -29,7 +29,7 @@ describe('DbLoadSurveys Usecase', () => {
 
   test('Should call LoadSurveysRepository with correct value', async () => {
     const { sut, loadSurveysRepositorySpy } = makeSut()
-    const accountId = faker.random.uuid()
+    const accountId = faker.datatype.uuid()
     await sut.load(accountId)
     expect(loadSurveysRepositorySpy.accountId).toBe(accountId)
   })
@@ -37,13 +37,13 @@ describe('DbLoadSurveys Usecase', () => {
   test('Should throw if LoadSurveysRepository throws', async () => {
     const { sut, loadSurveysRepositorySpy } = makeSut()
     jest.spyOn(loadSurveysRepositorySpy, 'loadAll').mockImplementationOnce(throwError)
-    const promise = sut.load(faker.random.uuid())
+    const promise = sut.load(faker.datatype.uuid())
     await expect(promise).rejects.toThrow()
   })
 
   test('Should return a list of surveys on success', async () => {
     const { sut, loadSurveysRepositorySpy } = makeSut()
-    const surveys = await sut.load(faker.random.uuid())
+    const surveys = await sut.load(faker.datatype.uuid())
     expect(surveys).toEqual(loadSurveysRepositorySpy.surveyModels)
   })
 })

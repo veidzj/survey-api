@@ -21,7 +21,7 @@ let surveyId: string
 
 describe('DbCheckSurveyById Usecase', () => {
   beforeEach(() => {
-    surveyId = faker.random.uuid()
+    surveyId = faker.datatype.uuid()
   })
 
   test('Should call CheckSurveyByIdRepository with correct id', async () => {
