@@ -17,7 +17,7 @@ describe('SignIn Routes', () => {
   })
 
   beforeEach(async () => {
-    accountsCollection = await MongoHelper.getCollection('accounts')
+    accountsCollection = MongoHelper.getCollection('accounts')
     await accountsCollection.deleteMany({})
   })
 

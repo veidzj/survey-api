@@ -20,7 +20,7 @@ describe('SignIn GraphQL', () => {
   })
 
   beforeEach(async () => {
-    accountsCollection = await MongoHelper.getCollection('accounts')
+    accountsCollection = MongoHelper.getCollection('accounts')
     await accountsCollection.deleteMany({})
   })
 

@@ -14,10 +14,10 @@ const mockAccessToken = async (): Promise<string> => {
     email: 'valid_email@mail.com',
     password: 'valid_password'
   })
-  const id = res.ops[0]._id
+  const id = res.insertedId.toHexString()
   const accessToken = sign({ id }, env.jwtSecret)
   await accountsCollection.updateOne(
-    { _id: id },
+    { _id: res.insertedId },
     { $set: { accessToken } }
   )
   return accessToken
@@ -33,8 +33,8 @@ describe('Survey Result Routes', () => {
   })
 
   beforeEach(async () => {
-    surveysCollection = await MongoHelper.getCollection('surveys')
-    accountsCollection = await MongoHelper.getCollection('accounts')
+    surveysCollection = MongoHelper.getCollection('surveys')
+    accountsCollection = MongoHelper.getCollection('accounts')
     await surveysCollection.deleteMany({})
     await accountsCollection.deleteMany({})
   })
@@ -64,7 +64,7 @@ describe('Survey Result Routes', () => {
         date: new Date()
       })
       await request(app)
-        .put(`/api/surveys/${res.ops[0]._id as string}/results`)
+        .put(`/api/surveys/${res.insertedId.toHexString()}/results`)
         .set('x-access-token', accessToken)
         .send({
           answer: 'Answer 1'
@@ -95,7 +95,7 @@ describe('Survey Result Routes', () => {
         date: new Date()
       })
       await request(app)
-        .get(`/api/surveys/${res.ops[0]._id as string}/results`)
+        .get(`/api/surveys/${res.insertedId.toHexString()}/results`)
         .set('x-access-token', accessToken)
         .expect(200)
     })

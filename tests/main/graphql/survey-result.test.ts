@@ -16,10 +16,10 @@ const mockAccessToken = async (): Promise<string> => {
     email: 'valid_email@mail.com',
     password: 'valid_password'
   })
-  const id = res.ops[0]._id
+  const id = res.insertedId.toHexString()
   const accessToken = sign({ id }, env.jwtSecret)
   await accountsCollection.updateOne(
-    { _id: id },
+    { _id: res.insertedId },
     { $set: { accessToken } }
   )
   return accessToken
@@ -36,8 +36,8 @@ describe('SurveyResult GraphQL', () => {
   })
 
   beforeEach(async () => {
-    accountsCollection = await MongoHelper.getCollection('accounts')
-    surveysCollection = await MongoHelper.getCollection('surveys')
+    accountsCollection = MongoHelper.getCollection('accounts')
+    surveysCollection = MongoHelper.getCollection('surveys')
     await surveysCollection.deleteMany({})
     await accountsCollection.deleteMany({})
   })
@@ -83,7 +83,7 @@ describe('SurveyResult GraphQL', () => {
       })
       const res: any = await query(surveyResultQuery, {
         variables: {
-          surveyId: surveyRes.ops[0]._id.toString()
+          surveyId: surveyRes.insertedId.toHexString()
         }
       })
       expect(res.data.surveyResult.question).toBe('Question')
@@ -117,7 +117,7 @@ describe('SurveyResult GraphQL', () => {
       const { query } = createTestClient({ apolloServer })
       const res: any = await query(surveyResultQuery, {
         variables: {
-          surveyId: surveyRes.ops[0]._id.toString()
+          surveyId: surveyRes.insertedId.toHexString()
         }
       })
       expect(res.data).toBeFalsy()
@@ -166,7 +166,7 @@ describe('SurveyResult GraphQL', () => {
       })
       const res: any = await mutate(saveSurveyResultMutation, {
         variables: {
-          surveyId: surveyRes.ops[0]._id.toString(),
+          surveyId: surveyRes.insertedId.toHexString(),
           answer: 'Answer 1'
         }
       })
@@ -201,7 +201,7 @@ describe('SurveyResult GraphQL', () => {
       const { mutate } = createTestClient({ apolloServer })
       const res: any = await mutate(saveSurveyResultMutation, {
         variables: {
-          surveyId: surveyRes.ops[0]._id.toString(),
+          surveyId: surveyRes.insertedId.toHexString(),
           answer: 'Answer 1'
         }
       })
