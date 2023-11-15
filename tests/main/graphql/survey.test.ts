@@ -1,12 +1,14 @@
 import { Collection } from 'mongodb'
 import { sign } from 'jsonwebtoken'
 import request from 'supertest'
+import { Express } from 'express'
 import { MongoHelper } from '@/infra/db'
-import app from '@/main/config/app'
+import { setupApp } from '@/main/config/app'
 import env from '@/main/config/env'
 
 let accountsCollection: Collection
 let surveysCollection: Collection
+let app: Express
 
 const mockAccessToken = async (): Promise<string> => {
   const res = await accountsCollection.insertOne({
@@ -25,6 +27,7 @@ const mockAccessToken = async (): Promise<string> => {
 
 describe('Survey GraphQL', () => {
   beforeAll(async () => {
+    app = await setupApp()
     await MongoHelper.connect(env.mongoUrl)
   })
 

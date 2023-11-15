@@ -1,14 +1,17 @@
 import { Collection } from 'mongodb'
 import { hash } from 'bcrypt'
 import request from 'supertest'
+import { Express } from 'express'
 import { MongoHelper } from '@/infra/db'
-import app from '@/main/config/app'
+import { setupApp } from '@/main/config/app'
 import env from '@/main/config/env'
 
 let accountsCollection: Collection
+let app: Express
 
 describe('SignIn GraphQL', () => {
   beforeAll(async () => {
+    app = await setupApp()
     await MongoHelper.connect(env.mongoUrl)
   })
 
