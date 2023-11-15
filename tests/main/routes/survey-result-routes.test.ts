@@ -1,12 +1,14 @@
 import { Collection } from 'mongodb'
 import { sign } from 'jsonwebtoken'
 import request from 'supertest'
-import app from '@/main/config/app'
+import { Express } from 'express'
+import { setupApp } from '@/main/config/app'
 import env from '@/main/config/env'
 import { MongoHelper } from '@/infra/db'
 
 let surveysCollection: Collection
 let accountsCollection: Collection
+let app: Express
 
 const mockAccessToken = async (): Promise<string> => {
   const res = await accountsCollection.insertOne({
@@ -14,10 +16,10 @@ const mockAccessToken = async (): Promise<string> => {
     email: 'valid_email@mail.com',
     password: 'valid_password'
   })
-  const id = res.ops[0]._id
+  const id = res.insertedId.toHexString()
   const accessToken = sign({ id }, env.jwtSecret)
   await accountsCollection.updateOne(
-    { _id: id },
+    { _id: res.insertedId },
     { $set: { accessToken } }
   )
   return accessToken
@@ -25,6 +27,7 @@ const mockAccessToken = async (): Promise<string> => {
 
 describe('Survey Result Routes', () => {
   beforeAll(async () => {
+    app = await setupApp()
     await MongoHelper.connect(env.mongoUrl)
   })
 
@@ -33,8 +36,8 @@ describe('Survey Result Routes', () => {
   })
 
   beforeEach(async () => {
-    surveysCollection = await MongoHelper.getCollection('surveys')
-    accountsCollection = await MongoHelper.getCollection('accounts')
+    surveysCollection = MongoHelper.getCollection('surveys')
+    accountsCollection = MongoHelper.getCollection('accounts')
     await surveysCollection.deleteMany({})
     await accountsCollection.deleteMany({})
   })
@@ -64,7 +67,7 @@ describe('Survey Result Routes', () => {
         date: new Date()
       })
       await request(app)
-        .put(`/api/surveys/${res.ops[0]._id as string}/results`)
+        .put(`/api/surveys/${res.insertedId.toHexString()}/results`)
         .set('x-access-token', accessToken)
         .send({
           answer: 'Answer 1'
@@ -95,7 +98,7 @@ describe('Survey Result Routes', () => {
         date: new Date()
       })
       await request(app)
-        .get(`/api/surveys/${res.ops[0]._id as string}/results`)
+        .get(`/api/surveys/${res.insertedId.toHexString()}/results`)
         .set('x-access-token', accessToken)
         .expect(200)
     })

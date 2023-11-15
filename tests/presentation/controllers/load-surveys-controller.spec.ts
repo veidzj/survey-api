@@ -20,7 +20,7 @@ const makeSut = (): SutTypes => {
 }
 
 const mockRequest = (): LoadSurveysController.Request => ({
-  accountId: faker.random.uuid()
+  accountId: faker.datatype.uuid()
 })
 
 describe('LoadSurveysController', () => {

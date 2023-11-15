@@ -1,12 +1,14 @@
 import { Collection } from 'mongodb'
 import { sign } from 'jsonwebtoken'
 import request from 'supertest'
-import app from '@/main/config/app'
+import { Express } from 'express'
+import { setupApp } from '@/main/config/app'
 import env from '@/main/config/env'
 import { MongoHelper } from '@/infra/db'
 
 let surveysCollection: Collection
 let accountsCollection: Collection
+let app: Express
 
 const mockAccessToken = async (): Promise<string> => {
   const res = await accountsCollection.insertOne({
@@ -15,10 +17,10 @@ const mockAccessToken = async (): Promise<string> => {
     password: 'valid_password',
     role: 'admin'
   })
-  const id = res.ops[0]._id
+  const id = res.insertedId.toHexString()
   const accessToken = sign({ id }, env.jwtSecret)
   await accountsCollection.updateOne(
-    { _id: id },
+    { _id: res.insertedId },
     { $set: { accessToken } }
   )
   return accessToken
@@ -26,6 +28,7 @@ const mockAccessToken = async (): Promise<string> => {
 
 describe('Survey Routes', () => {
   beforeAll(async () => {
+    app = await setupApp()
     await MongoHelper.connect(env.mongoUrl)
   })
 
@@ -34,8 +37,8 @@ describe('Survey Routes', () => {
   })
 
   beforeEach(async () => {
-    surveysCollection = await MongoHelper.getCollection('surveys')
-    accountsCollection = await MongoHelper.getCollection('accounts')
+    surveysCollection = MongoHelper.getCollection('surveys')
+    accountsCollection = MongoHelper.getCollection('accounts')
     await surveysCollection.deleteMany({})
     await accountsCollection.deleteMany({})
   })

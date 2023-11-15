@@ -3,7 +3,7 @@ import { SurveyModel } from '@/domain/models/survey'
 import { AddSurvey } from '@/domain/usecases/survey/add-survey'
 
 export const mockSurveyModel = (): SurveyModel => ({
-  id: faker.random.uuid(),
+  id: faker.datatype.uuid(),
   question: faker.random.words(),
   answers: [{
     answer: faker.random.word(),

@@ -1,17 +1,17 @@
 import { Collection } from 'mongodb'
 import { hash } from 'bcrypt'
-import { createTestClient } from 'apollo-server-integration-testing'
-import { ApolloServer, gql } from 'apollo-server-express'
-import { makeApolloServer } from './helpers'
+import request from 'supertest'
+import { Express } from 'express'
 import { MongoHelper } from '@/infra/db'
+import { setupApp } from '@/main/config/app'
 import env from '@/main/config/env'
 
 let accountsCollection: Collection
-let apolloServer: ApolloServer
+let app: Express
 
 describe('SignIn GraphQL', () => {
   beforeAll(async () => {
-    apolloServer = makeApolloServer()
+    app = await setupApp()
     await MongoHelper.connect(env.mongoUrl)
   })
 
@@ -20,14 +20,14 @@ describe('SignIn GraphQL', () => {
   })
 
   beforeEach(async () => {
-    accountsCollection = await MongoHelper.getCollection('accounts')
+    accountsCollection = MongoHelper.getCollection('accounts')
     await accountsCollection.deleteMany({})
   })
 
   describe('SignIn Query', () => {
-    const signInQuery = gql`
-      query signIn ($email: String!, $password: String!) {
-        signIn (email: $email, password: $password) {
+    const query = `
+      query {
+        signIn (email: "valid_email@mail.com", password: "valid_password") {
           name
           accessToken
         }
@@ -41,34 +41,28 @@ describe('SignIn GraphQL', () => {
         email: 'valid_email@mail.com',
         password
       })
-      const { query } = createTestClient({ apolloServer })
-      const res: any = await query(signInQuery, {
-        variables: {
-          email: 'valid_email@mail.com',
-          password: 'valid_password'
-        }
-      })
-      expect(res.data.signIn.accessToken).toBeTruthy()
-      expect(res.data.signIn.name).toBe('valid_name')
+      const res = await request(app)
+        .post('/graphql')
+        .send({ query })
+      expect(res.status).toBe(200)
+      expect(res.body.data.signIn.accessToken).toBeTruthy()
+      expect(res.body.data.signIn.name).toBe('valid_name')
     })
 
     test('Should return UnauthorizedError on invalid credentials', async () => {
-      const { query } = createTestClient({ apolloServer })
-      const res: any = await query(signInQuery, {
-        variables: {
-          email: 'invalid_email@mail.com',
-          password: 'valid_password'
-        }
-      })
-      expect(res.data).toBeFalsy()
-      expect(res.errors[0].message).toBe('Unauthorized')
+      const res = await request(app)
+        .post('/graphql')
+        .send({ query })
+      expect(res.status).toBe(401)
+      expect(res.body.data).toBeFalsy()
+      expect(res.body.errors[0].message).toBe('Unauthorized')
     })
   })
 
   describe('SignUp Mutation', () => {
-    const signUpMutation = gql`
-      mutation signUp ($name: String!, $email: String!, $password: String!, $passwordConfirmation: String!) {
-        signUp (name: $name, email: $email, password: $password, passwordConfirmation: $passwordConfirmation) {
+    const query = `
+      mutation {
+        signUp (name: "valid_name", email: "valid_email@mail.com", password: "valid_password", passwordConfirmation: "valid_password") {
           name
           accessToken
         }
@@ -76,17 +70,12 @@ describe('SignIn GraphQL', () => {
     `
 
     test('Should return an account on valid data', async () => {
-      const { mutate } = createTestClient({ apolloServer })
-      const res: any = await mutate(signUpMutation, {
-        variables: {
-          name: 'valid_name',
-          email: 'valid_email@mail.com',
-          password: 'valid_password',
-          passwordConfirmation: 'valid_password'
-        }
-      })
-      expect(res.data.signUp.accessToken).toBeTruthy()
-      expect(res.data.signUp.name).toBe('valid_name')
+      const res = await request(app)
+        .post('/graphql')
+        .send({ query })
+      expect(res.status).toBe(200)
+      expect(res.body.data.signUp.accessToken).toBeTruthy()
+      expect(res.body.data.signUp.name).toBe('valid_name')
     })
 
     test('Should return EmailInUseError on email in use', async () => {
@@ -96,17 +85,12 @@ describe('SignIn GraphQL', () => {
         email: 'valid_email@mail.com',
         password
       })
-      const { mutate } = createTestClient({ apolloServer })
-      const res: any = await mutate(signUpMutation, {
-        variables: {
-          name: 'valid_name',
-          email: 'valid_email@mail.com',
-          password: 'valid_password',
-          passwordConfirmation: 'valid_password'
-        }
-      })
-      expect(res.data).toBeFalsy()
-      expect(res.errors[0].message).toBe('The received email is already in use')
+      const res = await request(app)
+        .post('/graphql')
+        .send({ query })
+      expect(res.status).toBe(403)
+      expect(res.body.data).toBeFalsy()
+      expect(res.body.errors[0].message).toBe('The received email is already in use')
     })
   })
 })

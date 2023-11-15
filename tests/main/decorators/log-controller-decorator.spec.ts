@@ -22,7 +22,7 @@ const makeSut = (): SutTypes => {
 }
 
 class ControllerSpy implements Controller {
-  httpResponse = ok(faker.random.uuid())
+  httpResponse = ok(faker.datatype.uuid())
   httpRequest: any
 
   async handle (httpRequest: any): Promise<HttpResponse> {

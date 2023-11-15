@@ -25,7 +25,7 @@ let role: string
 
 describe('DbLoadAccountByToken Usecase', () => {
   beforeEach(() => {
-    token = faker.random.uuid()
+    token = faker.datatype.uuid()
     role = faker.random.word()
   })
 
