@@ -9,7 +9,7 @@ import { MongoHelper } from '@/infra/db'
 let accountsCollection: Collection
 let app: Express
 
-describe('SignIn Routes', () => {
+describe('Login Routes', () => {
   beforeAll(async () => {
     app = await setupApp()
     await MongoHelper.connect(env.mongoUrl)
@@ -38,8 +38,8 @@ describe('SignIn Routes', () => {
     })
   })
 
-  describe('POST /signin', () => {
-    test('Should return 200 on signin success', async () => {
+  describe('POST /login', () => {
+    test('Should return 200 on login success', async () => {
       const password = await hash('valid_password', 12)
       await accountsCollection.insertOne({
         name: 'valid_name',
@@ -47,7 +47,7 @@ describe('SignIn Routes', () => {
         password
       })
       await request(app)
-        .post('/api/signin')
+        .post('/api/login')
         .send({
           email: 'valid_email@mail.com',
           password: 'valid_password'
@@ -55,9 +55,9 @@ describe('SignIn Routes', () => {
         .expect(200)
     })
 
-    test('Should return 401 on signin unauthorized', async () => {
+    test('Should return 401 on login unauthorized', async () => {
       await request(app)
-        .post('/api/signin')
+        .post('/api/login')
         .send({
           email: 'valid_email@mail.com',
           password: 'valid_password'

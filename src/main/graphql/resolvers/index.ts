@@ -1,6 +1,6 @@
 import base from './base'
-import signIn from './signin'
+import login from './login'
 import survey from './survey'
 import surveyResult from './survey-result'
 
-export default [base, signIn, survey, surveyResult]
+export default [base, login, survey, surveyResult]
