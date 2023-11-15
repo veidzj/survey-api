@@ -17,7 +17,7 @@ export default {
     url: '/api'
   }],
   tags: [{
-    name: 'Sign In'
+    name: 'Login'
   }, {
     name: 'Survey'
   }],

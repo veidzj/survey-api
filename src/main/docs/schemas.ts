@@ -1,6 +1,6 @@
 import {
   signUpParamsSchema,
-  signInParamsSchema,
+  loginParamsSchema,
   accountSchema,
   errorSchema,
   surveySchema,
@@ -14,7 +14,7 @@ import {
 
 export default {
   signUpParams: signUpParamsSchema,
-  signInParams: signInParamsSchema,
+  loginParams: loginParamsSchema,
   account: accountSchema,
   error: errorSchema,
   survey: surveySchema,

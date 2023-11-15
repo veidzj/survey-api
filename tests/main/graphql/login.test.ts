@@ -9,7 +9,7 @@ import env from '@/main/config/env'
 let accountsCollection: Collection
 let app: Express
 
-describe('SignIn GraphQL', () => {
+describe('Login GraphQL', () => {
   beforeAll(async () => {
     app = await setupApp()
     await MongoHelper.connect(env.mongoUrl)
@@ -24,10 +24,10 @@ describe('SignIn GraphQL', () => {
     await accountsCollection.deleteMany({})
   })
 
-  describe('SignIn Query', () => {
+  describe('Login Query', () => {
     const query = `
       query {
-        signIn (email: "valid_email@mail.com", password: "valid_password") {
+        login (email: "valid_email@mail.com", password: "valid_password") {
           name
           accessToken
         }
@@ -45,8 +45,8 @@ describe('SignIn GraphQL', () => {
         .post('/graphql')
         .send({ query })
       expect(res.status).toBe(200)
-      expect(res.body.data.signIn.accessToken).toBeTruthy()
-      expect(res.body.data.signIn.name).toBe('valid_name')
+      expect(res.body.data.login.accessToken).toBeTruthy()
+      expect(res.body.data.login.name).toBe('valid_name')
     })
 
     test('Should return UnauthorizedError on invalid credentials', async () => {

@@ -3,7 +3,7 @@
 > ## APIs requirements:
 
 1. [Sign Up](./requirements/signup.md)
-2. [Sign In](./requirements/signin.md)
+2. [Login](./requirements/login.md)
 3. [Add Survey](./requirements/add-survey.md)
 4. [Answer Survey](./requirements/answer-survey.md)
 5. [Survey Result](./requirements/survey-result.md)
