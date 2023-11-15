@@ -7,7 +7,6 @@ export const makeSignUpValidation = (): ValidationComposite => {
   for (const field of ['name', 'email', 'password', 'passwordConfirmation']) {
     validations.push(new RequiredFieldValidation(field))
   }
-  console.log(validations)
   validations.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
   validations.push(new EmailValidation('email', new EmailValidatorAdapter()))
   return new ValidationComposite(validations)
